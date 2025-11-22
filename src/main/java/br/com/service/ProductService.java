@@ -1,11 +1,8 @@
 package br.com.service;
 
-
-import br.com.dto.request.ProductRequestDTO;
 import br.com.dto.response.ProductResponseDTO;
-import br.com.utils.mapper.ProductMapper;
-import br.com.model.Product;
 import br.com.repository.ProductRepository;
+import br.com.utils.mapper.ProductMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -24,18 +21,5 @@ public class ProductService {
         return repository.listByOwner(ownerId).stream()
                 .map(mapper::entitytoResponse )
                 .collect(Collectors.toList());
-    }
-
-    public void createProduct(ProductRequestDTO dto, String ownerId) {
-        Product entity = new Product();
-        entity.ownerId = ownerId;
-
-        entity.name = dto.name();
-        entity.description = dto.description();
-        entity.price = dto.price();
-        entity.measurementUnit = dto.measurementUnit();
-        entity.active = dto.active();
-
-        repository.persist(entity);
     }
 }
