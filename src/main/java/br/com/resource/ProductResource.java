@@ -1,13 +1,11 @@
 package br.com.resource;
 
-
-import br.com.dto.request.ProductRequestDTO;
 import br.com.dto.response.ProductResponseDTO;
 import br.com.service.ProductService;
 import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/products")
@@ -19,17 +17,11 @@ public class ProductResource {
     ProductService service;
 
     @GET
-    public List<ProductResponseDTO> getByOwner(@HeaderParam("X-Tenant-ID") String ownerId) {
-        if (ownerId == null) throw new WebApplicationException("ID da loja obrigatório", 400);
+    public List<ProductResponseDTO> getByOwner(
+            @HeaderParam("X-Tenant-ID")
+            @NotBlank(message = "O ID da loja (X-Tenant-ID) é obrigatório.")
+            String ownerId
+    ) {
         return service.findByOwner(ownerId);
-    }
-
-    @POST
-    public Response create(@HeaderParam("X-Tenant-ID") String ownerId, ProductRequestDTO dto) {
-        if (ownerId == null) throw new WebApplicationException("ID da loja obrigatório", 400);
-
-        service.createProduct(dto, ownerId);
-
-        return Response.status(201).build();
     }
 }
