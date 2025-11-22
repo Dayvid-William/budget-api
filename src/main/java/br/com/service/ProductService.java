@@ -20,7 +20,7 @@ public class ProductService {
 
     @Inject
     ProductMapper mapper;
-    public List<ProductResponseDTO> listMyProducts(String ownerId) {
+    public List<ProductResponseDTO> findByOwner(String ownerId) {
         return repository.listByOwner(ownerId).stream()
                 .map(mapper::entitytoResponse )
                 .collect(Collectors.toList());

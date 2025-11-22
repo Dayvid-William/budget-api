@@ -19,9 +19,9 @@ public class ProductResource {
     ProductService service;
 
     @GET
-    public List<ProductResponseDTO> list(@HeaderParam("X-Tenant-ID") String ownerId) {
+    public List<ProductResponseDTO> getByOwner(@HeaderParam("X-Tenant-ID") String ownerId) {
         if (ownerId == null) throw new WebApplicationException("ID da loja obrigatório", 400);
-        return service.listMyProducts(ownerId);
+        return service.findByOwner(ownerId);
     }
 
     @POST
