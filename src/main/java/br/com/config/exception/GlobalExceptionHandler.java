@@ -19,8 +19,7 @@ public class GlobalExceptionHandler implements ExceptionMapper<Exception> {
         if (exception instanceof WebApplicationException webEx) {
             code = webEx.getResponse().getStatus();
             message = webEx.getMessage();
-        }
-        else if (exception.getMessage() != null) {
+        } else if (exception.getMessage() != null) {
             message = exception.getMessage();
         }
 

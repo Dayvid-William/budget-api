@@ -10,4 +10,5 @@ public record ProductRequestDTO(
         Double price,
         String measurementUnit,
         boolean active
-) {}
+) {
+}
