@@ -8,7 +8,7 @@ public record ProductResponseDTO(
         String description,
         Double price,
         String measurementUnit,
-        boolean active,
-        LocalDateTime createdAt,
+        boolean active, LocalDateTime createdAt,
         LocalDateTime updatedAt
-) {}
+) {
+}

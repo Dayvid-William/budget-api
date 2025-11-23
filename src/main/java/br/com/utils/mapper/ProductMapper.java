@@ -23,7 +23,7 @@ public class ProductMapper {
         );
     }
 
-    public Product requesttoEntity(ProductRequestDTO dto) {
+    public Product requestToEntity(ProductRequestDTO dto) {
         if (dto == null) return null;
 
         Product entity = new Product();

@@ -14,12 +14,12 @@ public class ProductService {
 
     @Inject
     ProductRepository repository;
-
     @Inject
     ProductMapper mapper;
+
     public List<ProductResponseDTO> findByOwner(String ownerId) {
         return repository.listByOwner(ownerId).stream()
-                .map(mapper::entitytoResponse )
+                .map(mapper::entitytoResponse)
                 .collect(Collectors.toList());
     }
 }
