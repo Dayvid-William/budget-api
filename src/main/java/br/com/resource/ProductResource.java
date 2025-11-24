@@ -1,15 +1,14 @@
 package br.com.resource;
 
+import br.com.dto.request.ProductRequestDTO;
 import br.com.dto.response.ProductResponseDTO;
 import br.com.service.ProductService;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
@@ -27,5 +26,19 @@ public class ProductResource {
             String ownerId
     ) {
         return service.findByOwner(ownerId);
+    }
+
+    @POST
+    public Response create(
+            @HeaderParam("X-Tenant-ID")
+            @NotBlank(message = "ID da loja obrigatório")
+            String ownerId,
+
+            @Valid
+            ProductRequestDTO request
+    ){
+        ProductResponseDTO createdProduct = service.createProduct(request, ownerId);
+
+        return Response.status(201).entity(createdProduct).build();
     }
 }
