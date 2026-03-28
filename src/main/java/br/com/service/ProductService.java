@@ -11,6 +11,7 @@ import jakarta.inject.Inject;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -48,7 +49,10 @@ public class ProductService {
 
     public ProductResponseDTO createProduct(ProductRequestDTO request, String ownerId) {
         Product entity = mapper.requestToEntity(request);
+
+        entity.id = UUID.randomUUID().toString();
         entity.ownerId = ownerId;
+
         repository.persist(entity);
         return mapper.entitytoResponse(entity);
     }
