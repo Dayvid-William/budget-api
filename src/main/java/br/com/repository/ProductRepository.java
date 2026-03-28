@@ -3,6 +3,7 @@ package br.com.repository;
 import br.com.model.Product;
 import io.quarkus.mongodb.panache.PanacheMongoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import org.bson.types.ObjectId;
 
 import java.util.List;
 
@@ -11,5 +12,10 @@ public class ProductRepository implements PanacheMongoRepository<Product> {
 
     public List<Product> listByOwner(String ownerId) {
         return list("ownerId", ownerId);
+    }
+
+    public Product findByIdAndOwner(String id, String ownerId) {
+        return find("_id = ?1 and ownerId = ?2 and active = ?3", new ObjectId(id), ownerId, true)
+                .firstResult();
     }
 }
