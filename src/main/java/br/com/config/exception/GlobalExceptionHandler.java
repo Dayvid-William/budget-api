@@ -1,34 +1,24 @@
 package br.com.config.exception;
 
-import br.com.dto.response.ErrorResponseDTO;
-import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
-import java.time.LocalDateTime;
+import java.util.Map;
 
 @Provider
-public class GlobalExceptionHandler implements ExceptionMapper<Exception> {
+public class GlobalExceptionHandler implements ExceptionMapper<ResourceNotFoundException> {
 
     @Override
-    public Response toResponse(Exception exception) {
-        int code = 500;
-        String message = "Erro interno no servidor";
-
-        if (exception instanceof WebApplicationException webEx) {
-            code = webEx.getResponse().getStatus();
-            message = webEx.getMessage();
-        } else if (exception.getMessage() != null) {
-            message = exception.getMessage();
-        }
-
-        ErrorResponseDTO erro = new ErrorResponseDTO(
-                message,
-                code,
-                LocalDateTime.now()
+    public Response toResponse(ResourceNotFoundException exception) {
+        Map<String, Object> errorDetails = Map.of(
+                "status", 404,
+                "error", "Not Found",
+                "message", exception.getMessage()
         );
 
-        return Response.status(code).entity(erro).build();
+        return Response.status(Response.Status.NOT_FOUND)
+                .entity(errorDetails)
+                .build();
     }
 }

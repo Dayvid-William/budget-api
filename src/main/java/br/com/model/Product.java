@@ -3,13 +3,14 @@ package br.com.model;
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import io.smallrye.common.constraint.NotNull;
 import jakarta.validation.constraints.NotBlank;
-import org.bson.types.ObjectId;
+import org.bson.codecs.pojo.annotations.BsonId;
 
 import java.time.LocalDateTime;
 
 @MongoEntity(collection = "products")
 public class Product {
-    public ObjectId id;
+    @BsonId
+    public String id;
     @NotNull
     public String ownerId;
     @NotBlank(message = "O nome é obrigatório")

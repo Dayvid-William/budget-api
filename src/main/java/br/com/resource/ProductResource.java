@@ -22,16 +22,30 @@ public class ProductResource {
     @GET
     public List<ProductResponseDTO> getByOwner(
             @HeaderParam("X-Tenant-ID")
-            @NotBlank(message = "O ID da loja (X-Tenant-ID) é obrigatório.")
+            @NotBlank(message = "The store ID (X-Tenant-ID) is required.")
             String ownerId
     ) {
         return service.findByOwner(ownerId);
     }
 
-    @POST
-    public Response create(
+    @GET
+    @Path("{id}")
+    public ProductResponseDTO getByIdAndOwner(
             @HeaderParam("X-Tenant-ID")
-            @NotBlank(message = "ID da loja obrigatório")
+            @NotBlank(message = "The store ID (X-Tenant-ID) is required.")
+            String ownerId,
+
+            @PathParam("id")
+            @NotBlank(message = "The ID is required.")
+            String id
+    ){
+        return service.findByIdAndOwnerId(id, ownerId);
+    }
+
+    @POST
+    public Response createProduct(
+            @HeaderParam("X-Tenant-ID")
+            @NotBlank(message = "The store ID (X-Tenant-ID) is required.")
             String ownerId,
 
             @Valid
@@ -40,5 +54,39 @@ public class ProductResource {
         ProductResponseDTO createdProduct = service.createProduct(request, ownerId);
 
         return Response.status(201).entity(createdProduct).build();
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteByIdAndOwner(
+            @HeaderParam("X-Tenant-ID")
+            @NotBlank(message = "The store ID (X-Tenant-ID) is required.")
+            String ownerId,
+
+            @PathParam("id")
+            @NotBlank(message = "The ID is required.")
+            String id
+    ){
+        service.deleteProduct(id, ownerId);
+        return Response.noContent().build();
+    }
+
+    @PUT
+    @Path("{id}")
+    public Response updateProduct(
+            @HeaderParam("X-Tenant-ID")
+            @NotBlank(message = "The store ID (X-Tenant-ID) is required.")
+            String ownerId,
+
+            @PathParam("id")
+            @NotBlank(message = "The ID is required.")
+            String id,
+
+            @Valid
+            ProductRequestDTO request
+    ){
+        ProductResponseDTO updatedProduct = service.updateProduct(id, request, ownerId);
+
+        return Response.status(200).entity(updatedProduct).build();
     }
 }

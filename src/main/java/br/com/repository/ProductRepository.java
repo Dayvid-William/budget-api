@@ -12,4 +12,9 @@ public class ProductRepository implements PanacheMongoRepository<Product> {
     public List<Product> listByOwner(String ownerId) {
         return list("ownerId", ownerId);
     }
+
+    public Product findByIdAndOwner(String id, String ownerId) {
+        return find("_id = ?1 and ownerId = ?2 and active = ?3", id, ownerId, true)
+                .firstResult();
+    }
 }
