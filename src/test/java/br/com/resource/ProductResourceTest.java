@@ -28,7 +28,7 @@ class ProductResourceTest {
     private ProductResource productResource;
 
     @Mock
-    private ProductService productService;’
+    private ProductService productService;
 
     private final String OWNER_ID = "tenant-123";
     private final String PRODUCT_ID = "prod-456";
